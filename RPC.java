@@ -1,23 +1,25 @@
-package studios.bluemoon;
+package dev.larrox.discord;
 
 import de.jcm.discordgamesdk.Core;
 import de.jcm.discordgamesdk.CreateParams;
 import de.jcm.discordgamesdk.activity.Activity;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import  net.minecraft.client.multiplayer.ClientLevel;
 
 import java.time.Instant;
 
 public class RPC {
 
     private static final Activity ACTIVITY = new Activity();
+    private static final MinecraftClient minecraft = MinecraftClient.getInstance();
 
-    public static boolean isOnMultiplayerServer() {
-        Minecraft minecraft = Minecraft.getInstance();
-        ClientLevel world = minecraft.level;
-        return world != null && !minecraft.isSingleplayer();
+    private static boolean isInMainMenu() {
+        return minecraft.world == null;
+    }
+
+    private static boolean isOnMultiplayerServer() {
+        return minecraft.world != null && !minecraft.isInSingleplayer();
     }
 
     public static void start() {
@@ -25,51 +27,48 @@ public class RPC {
             final CreateParams params = new CreateParams();
             params.setClientID(1259424712644366416L);
             params.setFlags(CreateParams.Flags.NO_REQUIRE_DISCORD);
+
             ACTIVITY.timestamps().setStart(Instant.now());
+
             try (final Core core = new Core(params)) {
                 while (true) {
-                    if (Minecraft.getInstance().isLocalServer()) {
-                        ACTIVITY.assets().setLargeText("BlueMoon-Client | Fabric 1.21");
-                        ACTIVITY.assets().setLargeImage("large");
-                        updatePlayerHead();
-                        ACTIVITY.assets().setSmallText(Minecraft.getInstance().getGameProfile().getName());
-                        ACTIVITY.setDetails("In Singleplayer");
-                        ACTIVITY.setState("with BMC-1.21");
-                    } else if (isOnMultiplayerServer()) {
-                        ACTIVITY.assets().setLargeText("BlueMoon-Client | Fabric 1.21");
-                        ACTIVITY.assets().setLargeImage("large");
-                        updatePlayerHead();
-                        ACTIVITY.assets().setSmallText(Minecraft.getInstance().getGameProfile().getName());
-                        ACTIVITY.setDetails("In Multiplayer");
-                        ACTIVITY.setState("with BMC-1.21");
-                    } else {
-                        ACTIVITY.assets().setLargeText("BlueMoon-Client | Fabric 1.21");
-                        ACTIVITY.assets().setLargeImage("large");
-                        updatePlayerHead();
-                        ACTIVITY.assets().setSmallText(Minecraft.getInstance().getGameProfile().getName());
-                        ACTIVITY.setDetails("In Mainmenu");
-                        ACTIVITY.setState("with BMC-1.21");
+
+                    ACTIVITY.assets().setLargeText("A Cool Hover Text for my Large Image");
+                    ACTIVITY.assets().setLargeImage("large");
+                    updatePlayerHead();
+
+                    String playerName = minecraft.getGameProfile() != null ? minecraft.getGameProfile().name() : "Minecraft-Player";
+                    ACTIVITY.assets().setSmallText(playerName);
+
+                    if (isInMainMenu()) {
+                        ACTIVITY.setDetails("In Main Menu");
                     }
+                    else if (isOnMultiplayerServer()) {
+                        ACTIVITY.setDetails("In Multiplayer");
+                    }
+                    else {
+                        ACTIVITY.setDetails("In Singleplayer");
+                    }
+                    ACTIVITY.setState("with A cool Client");
+
+                    // Update zu Discord senden
                     core.activityManager().updateActivity(ACTIVITY);
 
                     try {
-                        Thread.sleep(16);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
+                        Thread.sleep(1000 / 60);
+                    } catch (InterruptedException ignored) { }
                 }
 
-            } catch (RuntimeException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }).start();
     }
 
     private static void updatePlayerHead() {
-        String uuid = Minecraft.getInstance().getGameProfile().getId().toString();
-        String playerHeadImage = getPlayerHeadURL(uuid, "head", 3);
-        ACTIVITY.assets().setSmallImage(playerHeadImage);
+        if (minecraft.getGameProfile() == null) return;
+        String uuid = minecraft.getGameProfile().id().toString();
+        ACTIVITY.assets().setSmallImage(getPlayerHeadURL(uuid, "head", 3));
     }
 
     @Contract(pure = true)
