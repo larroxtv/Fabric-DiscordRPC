@@ -1,46 +1,52 @@
-# Fabric-DiscordRPC - GameSDK
+# 🎮 Fabric DiscordRPC – GameSDK Integration
 
-<h2>SIMPLE DISCORD RPC CODE FOR FABRIC-MODDING</h2>
+### *A simple and modern Discord Rich Presence setup for Fabric mods*
 
-## CODED IN `FABRIC-1.21` | Maybe things are changed in older versions
+> **Tested on Fabric 1.21**
+> Older versions may require adjustments.
 
-## You need to add the DiscordSDK4J modImplementation OTHERWISE, IT **WONT** work!
+# 🔧 Gradle Setup
 
-<h2>FOR GRADLE</h2>
+### **`build.gradle` – Dependencies**
 
-**gradle: dependency**
 ```gradle
 dependencies {
-	modImplementation 'com.github.JnCrMx:discord-game-sdk4j:master-SNAPSHOT'
-	include 'com.github.JnCrMx:discord-game-sdk4j:master-SNAPSHOT'
+    modImplementation 'com.github.JnCrMx:discord-game-sdk4j:master-SNAPSHOT'
+    include 'com.github.JnCrMx:discord-game-sdk4j:master-SNAPSHOT'
 }
 ```
 
-**GRADLE repositories**
+### **`build.gradle` – Repositories**
+
 ```gradle
 repositories {
-	mavenCentral()
-	maven { url 'https://jitpack.io/' }
+    mavenCentral()
+    maven { url 'https://jitpack.io/' }
 }
 ```
 
-<h2>FOR MAVEN</h2>
+---
 
-**maven dependency**:
+# 🔧 Maven Setup
+
+### **Dependency**
+
 ```xml
-    <dependency>
-        <groupId>com.github.JnCrMx</groupId>
-        <artifactId>discord-game-sdk4j</artifactId>
-        <version>master-SNAPSHOT</version>
-    </dependency>
+<dependency>
+    <groupId>com.github.JnCrMx</groupId>
+    <artifactId>discord-game-sdk4j</artifactId>
+    <version>master-SNAPSHOT</version>
+</dependency>
 ```
-**maven repositories**:
+
+### **Repository**
+
 ```xml
-    <repository>
-        <id>sonatype-snapshots</id>
-        <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
-        <snapshots>
-            <enabled>true</enabled>
-        </snapshots>
-    </repository>
+<repository>
+    <id>sonatype-snapshots</id>
+    <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+    <snapshots>
+        <enabled>true</enabled>
+    </snapshots>
+</repository>
 ```
