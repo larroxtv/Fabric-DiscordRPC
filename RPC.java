@@ -25,7 +25,7 @@ public class RPC {
     public static void start() {
         new Thread(() -> {
             final CreateParams params = new CreateParams();
-            params.setClientID(1259424712644366416L);
+            params.setClientID(OH_NO_A_CLIENT_IDL); // You need to add the L there.
             params.setFlags(CreateParams.Flags.NO_REQUIRE_DISCORD);
 
             ACTIVITY.timestamps().setStart(Instant.now());
@@ -76,3 +76,4 @@ public class RPC {
         return "https://api.mineatar.io/" + type + "/" + uuid + "?scale=" + size;
     }
 }
+
