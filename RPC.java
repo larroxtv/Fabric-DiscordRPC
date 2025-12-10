@@ -3,7 +3,7 @@ package dev.larrox.discord;
 import de.jcm.discordgamesdk.Core;
 import de.jcm.discordgamesdk.CreateParams;
 import de.jcm.discordgamesdk.activity.Activity;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,18 +11,18 @@ import java.time.Instant;
 
 public class RPC {
     private static final Activity ACTIVITY = new Activity();
-    private static final MinecraftClient minecraft = MinecraftClient.getInstance();
-    
+    private static final Minecraft minecraft = Minecraft.getInstance();
+
     private static String lastDetails = "";
     private static String lastState = "";
     private static String lastPlayerName = "";
 
     private static boolean isInMainMenu() {
-        return minecraft.world == null;
+        return minecraft.level == null;
     }
 
     private static boolean isOnMultiplayerServer() {
-        return minecraft.world != null && !minecraft.isInSingleplayer();
+        return minecraft.level != null && !minecraft.isSingleplayer();
     }
 
     public static void start() {
@@ -45,26 +45,26 @@ public class RPC {
                     } else {
                         details = "In Singleplayer";
                     }
-                    
-                    String state = "with A cool Client";
-                    String playerName = minecraft.getGameProfile() != null ? 
-                        minecraft.getGameProfile().name() : "Minecraft-Player";
 
-                    boolean needsUpdate = !details.equals(lastDetails) || 
-                                        !state.equals(lastState) ||
-                                        !playerName.equals(lastPlayerName);
+                    String state = "with A cool Client";
+                    String playerName = minecraft.getGameProfile() != null ?
+                            minecraft.getGameProfile().name() : "Minecraft-Player";
+
+                    boolean needsUpdate = !details.equals(lastDetails) ||
+                            !state.equals(lastState) ||
+                            !playerName.equals(lastPlayerName);
 
                     if (needsUpdate) {
                         ACTIVITY.setDetails(details);
                         ACTIVITY.setState(state);
-                        
+
                         if (!playerName.equals(lastPlayerName)) {
                             updatePlayerHead();
                             ACTIVITY.assets().setSmallText(playerName);
                         }
 
                         core.activityManager().updateActivity(ACTIVITY);
-                        
+
                         lastDetails = details;
                         lastState = state;
                         lastPlayerName = playerName;
