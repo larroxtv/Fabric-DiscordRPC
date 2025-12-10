@@ -2,7 +2,8 @@
 
 ### *A simple and modern Discord Rich Presence setup for Fabric mods*
 
-> **Tested on Fabric 1.21.10**
+> **Tested on Fabric 1.21.11**.
+
 > Older versions may require adjustments.
 
 # 🔧 Gradle Setup
