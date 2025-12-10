@@ -54,3 +54,4 @@ repositories {
 
 ## 👀 Searching for old Version?
 - [1.21 Tag](https://github.com/larroxtv/Fabric-DiscordRPC/tree/1.21)
+- [1.21.10 Tag](https://github.com/larroxtv/Fabric-DiscordRPC/tree/1.21.10)
